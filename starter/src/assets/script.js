@@ -11,22 +11,24 @@
 
 const products = [
     { name: 'strawberry', price: 1, quantity: 0, productId: 1, image: 'images/strawberry.jpg' },
-    { name: 'orange', price: 1.5, quantity: 0, productId: 1, image: 'images/orange.jpg' },
-    { name: 'cherry', price: 2, quantity: 0, productId: 1, image: 'images/cherry.jpg' }
+    { name: 'orange', price: 1.5, quantity: 0, productId: 2, image: 'images/orange.jpg' },
+    { name: 'cherry', price: 2, quantity: 0, productId: 3, image: 'images/cherry.jpg' }
 ];
 
 
 /* Declare an empty array named cart to hold the items in the cart */
 
 const cart = [];
+let productFound = false;
 
 /* Create a function named addProductToCart that takes in the product productId as an argument
   - addProductToCart should get the correct product based on the productId
   - addProductToCart should then increase the product's quantity
   - if the product is not already in the cart, add it to the cart
 */
-
 function addProductToCart(productId) {
+
+// Loop through the cart to check if the product already exists
   let product = products.find(product => product.productId === productId);
   product.quantity += 1;
 
@@ -43,7 +45,7 @@ function addProductToCart(productId) {
 function increaseQuantity(productId) {
 
   // increasing quantity of products in the cart
-  let product = findProduct(productId, cart)
+  let product = products.find(productId, cart)
   product.quantity = product.quantity + 1;
 }
 
@@ -56,11 +58,11 @@ function increaseQuantity(productId) {
 function decreaseQuantity(productId) {
 
   // decreasing the quantity of products in the cart
-  let product = findProduct(productId, cart)
+  let product = products.find(productId, cart)
   product.quantity = product.quantity - 1;
   if (product.quantity === 0) {
     product.quantity = 0
-    cart.splice(product.name,1)
+    cart.splice(index,1)
   }
 }
 
