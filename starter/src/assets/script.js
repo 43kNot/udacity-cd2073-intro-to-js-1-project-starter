@@ -19,7 +19,6 @@ const products = [
 /* Declare an empty array named cart to hold the items in the cart */
 
 const cart = [];
-let productFound = false;
 
 /* Create a function named addProductToCart that takes in the product productId as an argument
   - addProductToCart should get the correct product based on the productId
@@ -27,14 +26,22 @@ let productFound = false;
   - if the product is not already in the cart, add it to the cart
 */
 function addProductToCart(productId) {
-
-// Loop through the cart to check if the product already exists
-  let product = products.find(product => product.productId === productId);
-  product.quantity += 1;
-
-  if (!cart.includes(product)) {
-    cart.push(product);
+  function findProductsById(productId){
+    return products.find(item => item.productId === productId);
   }
+  
+  const product = findProductsById(productId); 
+
+  if (product) {
+    product.quantity += 1;
+    // check if product is in cart, otherwise to push it
+    const productInCart = findProductInCart(productId);
+
+    // if not in cart, push product
+    if (!productInCart){
+      cart.push(product);
+    }
+  } 
 }
 
 /* Create a function named increaseQuantity that takes in the productId as an argument
@@ -42,13 +49,16 @@ function addProductToCart(productId) {
   - increaseQuantity should then increase the product's quantity
 */
 
+// Function to INCREASE quantity of a product by productId
 function increaseQuantity(productId) {
+  const product = findProductsById(productId); 
 
-  // increasing quantity of products in the cart
-  let product = products.find(productId, cart)
-  product.quantity = product.quantity + 1;
+  // check if product in the products array, and if so, increment by one
+  if (product) {
+    product.quantity += 1;
+  }
+
 }
-
 /* Create a function named decreaseQuantity that takes in the productId as an argument
   - decreaseQuantity should get the correct product based on the productId
   - decreaseQuantity should decrease the quantity of the product
@@ -56,14 +66,26 @@ function increaseQuantity(productId) {
 */
 
 function decreaseQuantity(productId) {
+  const product = findProductsById(productId); 
 
-  // decreasing the quantity of products in the cart
-  let product = products.find(productId, cart)
-  product.quantity = product.quantity - 1;
-  if (product.quantity === 0) {
-    product.quantity = 0
-    cart.splice(index,1)
-  }
+  // Conditional to check if product in the prod array, and if so, decrease by 1
+  if (product) {
+    if(product.quantity > 0) {
+      product.quantity -= 1;
+    }
+
+    // Remove product from cart if less than 0 products
+    if (product.quantity === 0) {
+      function findProductCartByIndex (productId) {
+        return cart.findIndex(item => item.productId === productId);
+      }
+      // Find product by index and remove from cart
+      const productIndex = findProductCartByIndex (productId);
+      if (productIndex !== -1) {
+        cart.splice(productIndex, 1);
+      }
+    }
+  } 
 }
 
 /* Create a function named removeProductFromCart that takes in the productId as an argument
@@ -73,12 +95,20 @@ function decreaseQuantity(productId) {
 */
 
 function removeProductFromCart(productId) {
-  const index = cart.findIndex((product) => product.productId === productId);
-  if (index !== -1) {
-  cart[index].quantity = 0;
-  cart.splice(index, 1);
+  const product = findProductsById(productId); 
+
+  // Determine if product exists
+  if (product) {
+    product.quantity = 0;
+
+    // Find product by index and remove from cart
+    const productIndex = findProductCartByIndex (productId);
+    if (productIndex !== -1) {
+      cart.splice(productIndex, 1);
+    }
+  } 
 }
-}
+
 
 /* Create a function named cartTotal that has no parameters
   - cartTotal should iterate through the cart to get the total cost of all products
