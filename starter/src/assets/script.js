@@ -34,6 +34,9 @@ function addProductToCart(productId) {
 
   if (product) {
     product.quantity += 1;
+    function findProductInCart(productId) {
+      return cart.find(item => item.productId === productId);
+    }
     // check if product is in cart, otherwise to push it
     const productInCart = findProductInCart(productId);
 
