@@ -162,7 +162,7 @@ function pay(amount) {
    Run the following command in terminal to run tests
    npm run test
 */
-
+/*
 module.exports = {
    products,
    cart,
@@ -173,6 +173,6 @@ module.exports = {
    cartTotal,
    pay, 
    emptyCart,
-   /* Uncomment the following line if completing the currency converter bonus */
-   // currency
 }
+      /* Uncomment the following line if completing the currency converter bonus */
+   // currency
