@@ -29,14 +29,14 @@ function addProductToCart(productId) {
   function findProductsById(productId){
     return products.find(item => item.productId === productId);
   }
-  
+  function findProductInCart(productId) {
+    return cart.find(item => item.productId === productId);
+  }
   const product = findProductsById(productId); 
 
   if (product) {
     product.quantity += 1;
-    function findProductInCart(productId) {
-      return cart.find(item => item.productId === productId);
-    }
+   
     // check if product is in cart, otherwise to push it
     const productInCart = findProductInCart(productId);
 
