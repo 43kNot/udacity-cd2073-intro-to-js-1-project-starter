@@ -20,23 +20,31 @@ const products = [
 
 const cart = [];
 
+function findProductsById(productId){
+  return products.find(item => item.productId === productId);
+}
+
+// Helper function - finding product index in cart
+function findProductInCart(productId) {
+  return cart.find(item => item.productId === productId);
+}
+
+// Helper function - finding Product in Cart by Index
+function findProductCartByIndex (productId) {
+  return cart.findIndex(item => item.productId === productId);
+}
+
 /* Create a function named addProductToCart that takes in the product productId as an argument
   - addProductToCart should get the correct product based on the productId
   - addProductToCart should then increase the product's quantity
   - if the product is not already in the cart, add it to the cart
 */
 function addProductToCart(productId) {
-  function findProductsById(productId){
-    return products.find(item => item.productId === productId);
-  }
-  
   const product = findProductsById(productId); 
 
   if (product) {
     product.quantity += 1;
-    function findProductInCart(productId) {
-      return cart.find(item => item.productId === productId);
-    }
+   
     // check if product is in cart, otherwise to push it
     const productInCart = findProductInCart(productId);
 
@@ -78,11 +86,8 @@ function decreaseQuantity(productId) {
     }
 
     // Remove product from cart if less than 0 products
-    if (product.quantity === 0) {
-      function findProductCartByIndex (productId) {
-        return cart.findIndex(item => item.productId === productId);
-      }
-      // Find product by index and remove from cart
+    if (product.quantity === 0) {  
+    // Find product by index and remove from cart
       const productIndex = findProductCartByIndex (productId);
       if (productIndex !== -1) {
         cart.splice(productIndex, 1);
@@ -97,21 +102,13 @@ function decreaseQuantity(productId) {
   - removeProductFromCart should remove the product from the cart
 */
 
-  function removeProductFromCart(productId) {
-    // find product by productID u
-    const product = findProductsById(productId); 
-  
-    // Conditional to determine if product exists
-    if (product) {
-      product.quantity = 0;
-  
-      // Conditional to find and remove product from cart
-      const productIndex = findProductCartByIndex (productId);
-      if (productIndex !== -1) {
-        cart.splice(productIndex, 1);
-      }
-    } 
-  }
+function removeProductFromCart(productId) {
+  const index = cart.findIndex((product) => product.productId === productId);
+  if (index !== -1) {
+  cart[index].quantity = 0;
+  cart.splice(index, 1);
+}
+}
 
 
 /* Create a function named cartTotal that has no parameters
@@ -121,16 +118,14 @@ function decreaseQuantity(productId) {
 */
 
 function cartTotal() {
-  return cart.reduce((total, product) => {
-    return total + product.price * product.quantity; 
-  },0);
-}
+  let totalCost = 0;
 
-// Function to empty the products from the cart EMPTY CART
-function emptyCart() {
-  cart.length = 0; // setting to 0 empties the cart
+  // calculating the total cost and returning it
+  for (let i =0; i < cart.length; i++) {
+    totalCost = totalCost + (cart[i].quantity * cart[i].price);
+  }
+  return totalCost;
 }
-
 
 /* Create a function called emptyCart that empties the products from the cart */
 
