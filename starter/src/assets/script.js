@@ -97,20 +97,21 @@ function decreaseQuantity(productId) {
   - removeProductFromCart should remove the product from the cart
 */
 
-function removeProductFromCart(productId) {
-  const product = findProductsById(productId); 
-
-  // Determine if product exists
-  if (product) {
-    product.quantity = 0;
-
-    // Find product by index and remove from cart
-    const productIndex = findProductCartByIndex (productId);
-    if (productIndex !== -1) {
-      cart.splice(productIndex, 1);
-    }
-  } 
-}
+  function removeProductFromCart(productId) {
+    // find product by productID u
+    const product = findProductsById(productId); 
+  
+    // Conditional to determine if product exists
+    if (product) {
+      product.quantity = 0;
+  
+      // Conditional to find and remove product from cart
+      const productIndex = findProductCartByIndex (productId);
+      if (productIndex !== -1) {
+        cart.splice(productIndex, 1);
+      }
+    } 
+  }
 
 
 /* Create a function named cartTotal that has no parameters
@@ -120,14 +121,16 @@ function removeProductFromCart(productId) {
 */
 
 function cartTotal() {
-  let totalCost = 0;
-
-  // calculating the total cost and returning it
-  for (let i =0; i < cart.length; i++) {
-    totalCost = totalCost + (cart[i].quantity * cart[i].price);
-  }
-  return totalCost;
+  return cart.reduce((total, product) => {
+    return total + product.price * product.quantity; 
+  },0);
 }
+
+// Function to empty the products from the cart EMPTY CART
+function emptyCart() {
+  cart.length = 0; // setting to 0 empties the cart
+}
+
 
 /* Create a function called emptyCart that empties the products from the cart */
 
